@@ -91,6 +91,8 @@ class Navigation extends RenderedObject
      * @var string Whether the navigation should be floated
      */
     protected $float;
+    
+    protected $action;
 
     /**
      * Creates a new instance of Navigation
@@ -198,6 +200,7 @@ class Navigation extends RenderedObject
     protected function renderLink(array $link)
     {
         $string = '';
+        $parent = false;
 
         if (isset($link['callback'])) {
             $callback = $link['callback'];
@@ -210,8 +213,10 @@ class Navigation extends RenderedObject
         if ($this->itemShouldBeActive($link)) {
             $string .= '<li class=\'active\'>';
         } elseif (isset($link['disabled']) && $link['disabled']) {
+            $parent  = true;
             $string .= '<li class=\'disabled\'>';
         } else {
+            $parent = true;
             $string .= '<li>';
         }
 
@@ -220,13 +225,21 @@ class Navigation extends RenderedObject
         } else {
             $linkAttributes = [];
         }
+        
+        if($parent && (!isset($link['parentId']) || !$link['parentId'])) {
+            $link['link'] = "javascript: void(0)";
+        }
 
         $linkAttributes = new Attributes(
             $linkAttributes,
             ['href' => $link['link']]
         );
-
-        $string .= "<a {$linkAttributes}>{$link['title']}</a></li>";
+        
+        if ($parent) {
+            $string .= "<a {$linkAttributes} data-type=parent>{$link['title']}</a></li>";
+        } else {
+            $string .= "<a {$linkAttributes}>{$link['title']}</a></li>";
+        }
 
         return $string;
     }

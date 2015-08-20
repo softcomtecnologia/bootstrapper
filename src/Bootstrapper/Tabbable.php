@@ -53,6 +53,8 @@ class Tabbable extends RenderedObject
      * @var bool Whether we should fade in or not
      */
     protected $fade = false;
+    
+    protected $parentId;
 
     /**
      * Creates a new Tabbable object
@@ -146,17 +148,30 @@ class Tabbable extends RenderedObject
         $count = 0;
         foreach ($this->contents as $link) {
             $links[] = [
-                'link' => '#' . Helpers::slug($link['title']),
-                'title' => $link['title'],
-                'linkAttributes' => [
-                    'role' => 'tab',
-                    'data-toggle' => $this->type
-                ],
-                'active' => $count == $this->active
+                'link'           => '#' . Helpers::slug($link['title']),
+                'title'          => $link['title'],
+                'linkAttributes' => $this->createLinkAttributes($link),
+                'active'         => $count == $this->active,
+                'parentId'       => $this->parentId
             ];
+            
             $count += 1;
         }
         return $links;
+    }
+    
+    protected function createLinkAttributes($link)
+    {
+        $attributes = ['role' => 'tab', 'data-toggle' => $this->type];
+        
+        if (isset($link['data']) && is_array($link['data'])) {
+            if (isset($link['data']['data-action']) && $this->parentId) {
+                $link['data']['data-action'] = sprintf($link['data']['data-action'], $this->parentId);
+            }
+            $attributes = array_merge($attributes, $link['data']);
+        }
+        
+        return $attributes;
     }
 
     /**
@@ -238,6 +253,13 @@ class Tabbable extends RenderedObject
     public function fade()
     {
         $this->fade = true;
+
+        return $this;
+    }
+    
+    public function parentId($parentId)
+    {
+        $this->parentId = $parentId;
 
         return $this;
     }
