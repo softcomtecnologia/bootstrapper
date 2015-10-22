@@ -43,6 +43,11 @@ class DropdownButton extends RenderedObject
     const NORMAL = 'btn-default';
 
     /**
+     * Constant for default buttons
+     */
+    const WHITE = 'btn-white';
+
+    /**
      * Constant for info buttons
      */
     const INFO = 'btn-info';
@@ -177,6 +182,19 @@ class DropdownButton extends RenderedObject
     public function normal($label = '')
     {
         $this->setType(self::NORMAL);
+
+        return $this->labelled($label);
+    }
+
+    /**
+     * Creates a normal dropdown button
+     *
+     * @param string $label The label
+     * @return $this
+     */
+    public function white($label = '')
+    {
+        $this->setType(self::WHITE);
 
         return $this->labelled($label);
     }

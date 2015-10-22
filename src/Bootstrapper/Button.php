@@ -19,6 +19,11 @@ class Button extends RenderedObject
     const NORMAL = 'btn-default';
 
     /**
+     * Constant for default buttons
+     */
+    const WHITE = 'btn-white';
+
+    /**
      * Constant for primary buttons
      */
     const PRIMARY = 'btn-primary';
@@ -178,6 +183,19 @@ class Button extends RenderedObject
         $tag = $this->url ? 'a' : 'button';
 
         return "<{$tag} {$attributes}>{$value}</{$tag}>";
+    }
+
+    /**
+     * Creates a button with class .btn-default and the given contents
+     *
+     * @param string $contents The contents of the button The contents of the
+     *                         button
+     * @return Button
+     */
+    public function white($contents = '')
+    {
+        return $this->setType(self::WHITE)
+            ->withValue($contents);
     }
 
     /**
