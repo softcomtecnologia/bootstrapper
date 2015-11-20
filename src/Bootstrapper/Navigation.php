@@ -80,7 +80,7 @@ class Navigation extends RenderedObject
     /**
      * @var bool Whether the links are justified or not
      */
-    protected $justified = false;
+    protected $justified = true;
 
     /**
      * @var bool Whether the navigation links are stacked or not
@@ -169,7 +169,6 @@ class Navigation extends RenderedObject
     public function links(array $links)
     {
         $this->links = $links;
-
         return $this;
     }
 
