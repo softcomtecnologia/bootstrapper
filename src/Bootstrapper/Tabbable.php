@@ -133,7 +133,6 @@ class Tabbable extends RenderedObject
     protected function renderNavigation()
     {
         $this->links->links($this->createNavigationLinks());
-
         return $this->links->render();
     }
 
@@ -167,7 +166,7 @@ class Tabbable extends RenderedObject
 
         if (isset($link['data']) && is_array($link['data'])) {
             if (isset($link['data']['data-action']) && $this->parentId) {
-                $link['data']['data-action'] = sprintf($link['data']['data-action'], $this->parentId);
+                $link['data']['data-action'] = sprintf(url($link['data']['data-action']), $this->parentId);
             }
             $attributes = array_merge($attributes, $link['data']);
         }
