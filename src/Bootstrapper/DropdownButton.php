@@ -358,8 +358,16 @@ class DropdownButton extends RenderedObject
     {
         $string = '';
         foreach ($this->contents as $item) {
+
+            $attributes = '';
+
+            if (isset($item['attributes']) && is_array($item['attributes']))
+            {
+                $attributes = (new Attributes($item['attributes']))->__toString();
+            }
+
             if (is_array($item)) {
-                $string .= "<li><a href='{$item['url']}'>{$item['label']}</a></li>";
+                $string .= "<li><a href='_{$item['url']}' {$attributes} >{$item['label']} </a></li>";
             } else {
                 $string .= $item;
             }
